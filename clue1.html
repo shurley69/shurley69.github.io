@@ -55,68 +55,76 @@
         .hidden {
             display: none;
         }
+
+        #oops {
+            background-color: red;
+            color: white;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Puzzle Time!</h1>
-        <div id="initialClue">
-            <p>What rhymes with "Fart" but you get to <a href='https://traversetrails.org/trails/tart/'>ride your bike on it</a>?</p>
+        <h1 id="title">Puzzle Time!</h1>
+        <div id="calc">
+            <p id="question">Question?</p>
             <input type="text" id="guessInput" placeholder="Enter your guess" aria-label="Your guess">
-            <button onclick="checkInitialAnswer()">Submit</button>
-            <p id="initialFeedback" class="feedback"></p>
-        </div>
-        <div id="followUpClue" class="hidden">
-            <p>What campsite does the TART trail start on?</p>
-            <input type="text" id="campsiteInput" placeholder="Enter your answer" aria-label="Campsite number">
-            <button onclick="checkCampsiteAnswer()">Submit</button>
-            <p id="campsiteFeedback" class="feedback"></p>
-            <a id="nextClueButton" href="clue2.html" class="hidden">
-                <button>Next Clue</button>
-            </a>
+            <div id="oops" class="hidden">Sorry that answer is wrong, try again.</div>
+            <button onclick="processAnswer()">Submit</button>
         </div>
     </div>
 
     <script>
-        function checkInitialAnswer() {
-            const userGuess = document.getElementById('guessInput').value.trim().toUpperCase();
-            const correctAnswer = 'TART';
-            const feedback = document.getElementById('initialFeedback');
-            const initialClue = document.getElementById('initialClue');
-            const followUpClue = document.getElementById('followUpClue');
+        var questions = [
+            { 
+                question: "What rhymes with 'Fart,' but you get to ride your bike on?",
+                answers: ["tart"]
+            },
+            { 
+                title: 'new title',
+                question: "What is the campsite where the TART trail begins?",
+                answers: ['46', '47']
+            },
+        ];
 
-            if (userGuess === '') {
-                feedback.textContent = 'Please enter your guess.';
-                feedback.style.color = 'orange';
-            } else if (userGuess === correctAnswer) {
-                feedback.textContent = 'Correct! Now, answer the next question.';
-                feedback.style.color = 'green';
-                initialClue.classList.add('hidden');
-                followUpClue.classList.remove('hidden');
-            } else {
-                feedback.textContent = 'Oops! Try again.';
-                feedback.style.color = 'red';
+        var questionIndex = 0;
+
+        function showQuestion() {
+            const questionText = document.getElementById('question');
+            const nextQuestion = questions[questionIndex];
+            questionText.textContent = nextQuestion.question;
+
+            if (nextQuestion.title) {
+                const title = document.getElementById('title');
+                title.textContent = nextQuestion.title;
             }
+
+            const answer = document.getElementById('guessInput');
+            answer.value = '';
         }
 
-        function checkCampsiteAnswer() {
-            const campsiteGuess = document.getElementById('campsiteInput').value.trim();
-            const validAnswers = ['46', '47'];
-            const feedback = document.getElementById('campsiteFeedback');
-            const nextClueButton = document.getElementById('nextClueButton');
+        function checkAnswer() {
+            const answer = document.getElementById('guessInput').value.trim().toLowerCase();
+            const currentQuestion = questions[questionIndex];
 
-            if (campsiteGuess === '') {
-                feedback.textContent = 'Please enter a campsite number.';
-                feedback.style.color = 'orange';
-            } else if (validAnswers.includes(campsiteGuess)) {
-                feedback.textContent = 'Correct! Click the button below to get the next clue.';
-                feedback.style.color = 'green';
-                window.location.href = 'clue2.html';
-            } else {
-                feedback.textContent = 'Oops! Try again.';
-                feedback.style.color = 'red';
-            }
+            return currentQuestion.answers.includes(answer);
         }
+
+        function processAnswer() {
+            if (checkAnswer()) {
+                questionIndex += 1;
+                if (questionIndex >= questions.length) {
+                    window.location.href = "finish.html";
+                }
+            } else {
+                const oops = document.getElementById('oops');
+                oops.classList.remove('hidden');
+                setTimeout(() => oops.classList.add('hidden'), 3000);
+            }
+            showQuestion();
+        }
+
+        showQuestion();
     </script>
 </body>
 </html>
