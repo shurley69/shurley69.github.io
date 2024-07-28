@@ -111,7 +111,7 @@
             } else if (validAnswers.includes(campsiteGuess)) {
                 feedback.textContent = 'Correct! Click the button below to get the next clue.';
                 feedback.style.color = 'green';
-                nextClueButton.classList.remove('hidden');
+                window.location.href = 'clue2.html';
             } else {
                 feedback.textContent = 'Oops! Try again.';
                 feedback.style.color = 'red';
