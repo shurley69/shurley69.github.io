@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scavenger Hunt - Song Lyrics and Highway Number</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 22px); /* Adjusted for padding and border */
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .feedback {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .hint {
+            font-style: italic;
+            color: #666;
+        }
+        .hint a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .hint a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scavenger Hunt</h1>
+        <div id="firstQuestion">
+            <p>Complete the lyrics to this line from the song "Life is a Highway":</p>
+            <p>"I want to ride it"</p>
+            <p class="hint">
+                Hint: Check out the <a href="https://genius.com/Rascal-flatts-life-is-a-highway-lyrics" target="_blank">full lyrics here</a>.
+            </p>
+            <input type="text" id="lyricsInput" placeholder="Enter the remaining lyrics" aria-label="Lyrics">
+            <button id="lyricsSubmitButton" onclick="checkLyrics()">Submit</button>
+            <p id="lyricsFeedback" class="feedback"></p>
+        </div>
+        <div id="secondQuestion" class="hidden">
+            <p>What is the number of the highway you need to cross to get to the beach?</p>
+            <input type="text" id="highwayInput" placeholder="Enter the highway number" aria-label="Highway number">
+            <button id="highwaySubmitButton" onclick="checkHighway()">Submit</button>
+            <p id="highwayFeedback" class="feedback"></p>
+            <a id="nextButton" href="clue2.html" class="hidden">
+                <button>Next Clue</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function checkLyrics() {
+            const lyricsGuess = document.getElementById('lyricsInput').value.trim().toLowerCase();
+            const correctLyrics = 'all night long';
+            const feedback = document.getElementById('lyricsFeedback');
+            const firstQuestion = document.getElementById('firstQuestion');
+            const secondQuestion = document.getElementById('secondQuestion');
+            const submitButton = document.getElementById('lyricsSubmitButton');
+
+            if (lyricsGuess === '') {
+                feedback.textContent = 'Please enter the remaining lyrics.';
+                feedback.style.color = 'orange';
+            } else if (lyricsGuess === correctLyrics) {
+                feedback.textContent = 'Correct! Now, answer the next question.';
+                feedback.style.color = 'green';
+                submitButton.classList.add('hidden'); // Hide submit button
+                firstQuestion.classList.add('hidden');
+                secondQuestion.classList.remove('hidden');
+            } else {
+                feedback.textContent = 'Oops! Try again.';
+                feedback.style.color = 'red';
+            }
+        }
+
+        function checkHighway() {
+            const highwayGuess = document.getElementById('highwayInput').value.trim();
+            const correctHighway = '31';
+            const feedback = document.getElementById('highwayFeedback');
+            const submitButton = document.getElementById('highwaySubmitButton');
+            const nextButton = document.getElementById('nextButton');
+
+            if (highwayGuess === '') {
+                feedback.textContent = 'Please enter a highway number.';
+                feedback.style.color = 'orange';
+            } else if (highwayGuess === correctHighway) {
+                feedback.textContent = 'Correct! Click the button below to get the next clue.';
+                feedback.style.color = 'green';
+                submitButton.classList.add('hidden'); // Hide submit button
+                nextButton.classList.remove('hidden'); // Show next clue button
+                window.location.href = "clue3.html"
+            } else {
+                feedback.textContent = 'Oops! Try again.';
+                feedback.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>

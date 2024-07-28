@@ -1,9 +1,122 @@
-<html>
-    <head>
-        <title>A Traverse City State Park Scavenger Hunt</title>
-    </head>
-    <body>
-        <h1>Clue 1</h1>
-        <p>Welcome to clue1.</p>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Traverse City State Park Scavenger Hunt Clue 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 22px); /* Adjusted for padding and border */
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .feedback {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Puzzle Time!</h1>
+        <div id="initialClue">
+            <p>What rhymes with "Fart" but you get to ride your bike on it?</p>
+            <input type="text" id="guessInput" placeholder="Enter your guess" aria-label="Your guess">
+            <button onclick="checkInitialAnswer()">Submit</button>
+            <p id="initialFeedback" class="feedback"></p>
+        </div>
+        <div id="followUpClue" class="hidden">
+            <p>What campsite does the TART trail start on?</p>
+            <input type="text" id="campsiteInput" placeholder="Enter your answer" aria-label="Campsite number">
+            <button onclick="checkCampsiteAnswer()">Submit</button>
+            <p id="campsiteFeedback" class="feedback"></p>
+            <a id="nextClueButton" href="clue2.html" class="hidden">
+                <button>Next Clue</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function checkInitialAnswer() {
+            const userGuess = document.getElementById('guessInput').value.trim().toUpperCase();
+            const correctAnswer = 'TART';
+            const feedback = document.getElementById('initialFeedback');
+            const initialClue = document.getElementById('initialClue');
+            const followUpClue = document.getElementById('followUpClue');
+
+            if (userGuess === '') {
+                feedback.textContent = 'Please enter your guess.';
+                feedback.style.color = 'orange';
+            } else if (userGuess === correctAnswer) {
+                feedback.textContent = 'Correct! Now, answer the next question.';
+                feedback.style.color = 'green';
+                initialClue.classList.add('hidden');
+                followUpClue.classList.remove('hidden');
+            } else {
+                feedback.textContent = 'Oops! Try again.';
+                feedback.style.color = 'red';
+            }
+        }
+
+        function checkCampsiteAnswer() {
+            const campsiteGuess = document.getElementById('campsiteInput').value.trim();
+            const validAnswers = ['46', '47'];
+            const feedback = document.getElementById('campsiteFeedback');
+            const nextClueButton = document.getElementById('nextClueButton');
+
+            if (campsiteGuess === '') {
+                feedback.textContent = 'Please enter a campsite number.';
+                feedback.style.color = 'orange';
+            } else if (validAnswers.includes(campsiteGuess)) {
+                feedback.textContent = 'Correct! Click the button below to get the next clue.';
+                feedback.style.color = 'green';
+                nextClueButton.classList.remove('hidden');
+            } else {
+                feedback.textContent = 'Oops! Try again.';
+                feedback.style.color = 'red';
+            }
+        }
+    </script>
+</body>
 </html>
